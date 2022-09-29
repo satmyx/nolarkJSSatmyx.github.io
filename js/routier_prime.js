@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
+/*
+ * Permet de récupérer le résultat ainsi que faire la division en cas d'accidents.
+ * @returns {undefined}
+ */
 function Simulateur(){
     let total = new Number();
     let nbAccident = parseInt(window.document.querySelector("#i_nbaccident").value);
@@ -18,6 +22,9 @@ function Simulateur(){
     window.document.querySelector("#resultat_remun").innerHTML = total + " €";
 }
 
+/*
+ * Permet d'obtenir la prime d'un routier selon sa distance parcouru.
+ */
 function get_prime_distance(){
     let total = new Number();
     let totalprime = new Number();
@@ -33,6 +40,9 @@ function get_prime_distance(){
     }
 }
 
+/*
+ * Permet d'obtenir la prime d'anciennete d'un routier selon le nombre d'année passer dans l'entreprise.
+ */
 function get_prime_anciennete(){
     let total = new Number();
     const primeAncienneteFixe = 300;
@@ -50,6 +60,9 @@ function get_prime_anciennete(){
     }
 }
 
+/*
+ * Permet d'obtenir le nombre d'accident ainsi que le diviseur sur le total.
+ */
 function get_nb_accident(){
     let nbAccident = parseInt(window.document.querySelector("#i_nbaccident").value);
     if (nbAccident === 1){
