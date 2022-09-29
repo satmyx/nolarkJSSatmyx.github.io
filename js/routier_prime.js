@@ -9,15 +9,21 @@
  */
 function Simulateur(){
     let total = new Number();
-    let nbAccident = parseInt(window.document.querySelector("#i_nbaccident").value);
+    let totalSansAccident = new Number(); 
+    let nbAccident = recupValeur("#i_nbaccident");
+    let nbKmParcouru = recupValeur("#i_nbkmparcouru");
+    let nbAncien = recupValeur("#i_anciennete");
+    totalSansAccident = get_prime_distance(nbKmParcouru) + get_prime_anciennete(nbAncien);
     if (nbAccident > 3){
         total = 0;
+        window.document.querySelector("#resultat_remunsansaccident").innerHTML = "Votre prime sans accident aurait était de : " + totalSansAccident + " €";
     }
     else if (nbAccident === 0){
-        total = get_prime_distance() + get_prime_anciennete();
+        total = get_prime_distance(nbKmParcouru) + get_prime_anciennete(nbAncien);
     }
     else{
-        total = (get_prime_distance() + get_prime_anciennete()) / get_nb_accident();
+        total = (get_prime_distance(nbKmParcouru) + get_prime_anciennete(nbAncien)) / get_nb_accident(nbAccident);
+        window.document.querySelector("#resultat_remunsansaccident").innerHTML = "Votre prime sans accident aurait était de : " + totalSansAccident + " €";
     }
     window.document.querySelector("#resultat_remun").innerHTML = total + " €";
 }
@@ -25,10 +31,9 @@ function Simulateur(){
 /*
  * Permet d'obtenir la prime d'un routier selon sa distance parcouru.
  */
-function get_prime_distance(){
+function get_prime_distance(nbKmParcouru){
     let total = new Number();
     let totalprime = new Number();
-    let nbKmParcouru = parseInt(window.document.querySelector("#i_nbkmparcouru").value);
     const primeDistance = 0.01;
     const plafondKmParcouru = 900;
     total += nbKmParcouru*primeDistance;
@@ -43,12 +48,11 @@ function get_prime_distance(){
 /*
  * Permet d'obtenir la prime d'anciennete d'un routier selon le nombre d'année passer dans l'entreprise.
  */
-function get_prime_anciennete(){
+function get_prime_anciennete(nbAncien){
     let total = new Number();
     const primeAncienneteFixe = 300;
     const primeAjouterAnnee = 30;
     const retirerAnneeDebut = 120;
-    let nbAncien = parseInt(window.document.querySelector("#i_anciennete").value);
     if(nbAncien > 4){
         return total += primeAncienneteFixe + nbAncien*primeAjouterAnnee - retirerAnneeDebut;
     }
@@ -63,8 +67,7 @@ function get_prime_anciennete(){
 /*
  * Permet d'obtenir le nombre d'accident ainsi que le diviseur sur le total.
  */
-function get_nb_accident(){
-    let nbAccident = parseInt(window.document.querySelector("#i_nbaccident").value);
+function get_nb_accident(nbAccident){
     if (nbAccident === 1){
         return 2;
     }
@@ -74,6 +77,26 @@ function get_nb_accident(){
     else if (nbAccident === 3){
         return 4;
     }
+}
+
+/**
+ * Fonction qui retourne un entier depuis une valeur prise dans le DOM
+ * 
+ * @param {String} id
+ * @return {integer}
+ */
+function recupValeur(id) {
+    var valeur = parseInt(window.document.querySelector(id).value);
+    if (isNaN(valeur)) {
+        window.document.querySelector(id).value = 0;
+        return 0;
+    } else {
+        return valeur;
+    }
+}
+
+function test_du_prog(){
+    
 }
 
 window.addEventListener("load", function () {
