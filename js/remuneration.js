@@ -10,8 +10,8 @@
 
 function Simulateur(){
     let total = new Number();
-    total = get_salaire_ancien() + get_salaire_s20() + get_salaire_xspirit() + get_salaire_multitec();
-    alert(total);
+    total = get_salaire_ancien() + get_salaire_s20() + get_salaire_xspirit() + get_salaire_multitec() + get_km_rembourser();
+    window.document.querySelector("#resultat_remun").innerHTML = total + " €";
 }
 
 /*
@@ -82,6 +82,22 @@ function get_salaire_multitec(){
     }
     else if (nbMultitec <= 20){
         return total = total + Multitec*nbMultitec*TauxMulti1;
+    }
+}
+
+/*
+ * Permet d'obtenir l'indemnité des km parcouru.
+ */
+function get_km_rembourser(){
+    let total = new Number();
+    const indemnite = 0.15;
+    let nbKmParcouru = parseInt(window.document.querySelector("#i_nbkmparcouru").value);
+    total += nbKmParcouru*indemnite;
+    if (total > 350){
+        return total = 0;
+    }
+    else{
+        return total;
     }
 }
 
