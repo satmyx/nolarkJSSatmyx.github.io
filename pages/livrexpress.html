@@ -43,9 +43,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
                 </ul>
             </nav>
         </header>
-        
-        
-        
+        <section id="contact">
+            <form name="form_renum" method="post">
+                <fieldset id="coordo">
+                    <legend>Simulateur de rémunérations</legend>
+                    <div><label for="i_anciennete"> Années d'ancienneté :</label> <input type="number" name="i_anciennete" id="i_anciennete" min ='0' required></div>
+                    <div><label for="i_nbkmparcouru"> Nombre de Km parcouru :</label> <input type="number" name="i_nbkmparcouru" id="i_nbkmparcouru" min ='0' required></div>
+                    <div><label for="i_nbaccident"> Nombre d'accident :</label> <input type="number" name="i_nbaccident" id="i_nbaccident" min ='0' required></div>
+                    <input type="button" id="btn_envoyer_simu_prime" name="sub_envoyersimu" value="Envoyer votre demande de simulation"> 
+                    <div>Votre remuneration sera de : <span id="resultat_remun"></span></div>
+                </fieldset>
+            </form>
+        </section>
         <footer>
             <p>&copy;2018 Nolark - Créé par <a href="mailto:jose.gil@ac-nice.fr">José GIL</a><p>
         </footer>
