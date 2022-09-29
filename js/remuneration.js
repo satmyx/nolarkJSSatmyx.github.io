@@ -94,7 +94,7 @@ function get_km_rembourser(){
     let nbKmParcouru = parseInt(window.document.querySelector("#i_nbkmparcouru").value);
     total += nbKmParcouru*indemnite;
     if (total > 350){
-        return total = 0;
+        return total = 350;
     }
     else{
         return total;
