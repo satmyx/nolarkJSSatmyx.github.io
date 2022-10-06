@@ -23,7 +23,7 @@ function Simulateur(){
     }
     else{
         total = (get_prime_distance(nbKmParcouru) + get_prime_anciennete(nbAncien)) / get_nb_accident(nbAccident);
-        window.document.querySelector("#resultat_remunsansaccident").innerHTML = "Votre prime sans accident aurait était de : " + totalSansAccident + " €";
+        window.document.querySelector("#resultat_remunsansaccident").innerHTML = "Votre prime sans accident(s) aurait était de : " + totalSansAccident + " €";
     }
     window.document.querySelector("#resultat_remun").innerHTML = total + " €";
 }
@@ -93,10 +93,6 @@ function recupValeur(id) {
     } else {
         return valeur;
     }
-}
-
-function test_du_prog(){
-    
 }
 
 window.addEventListener("load", function () {

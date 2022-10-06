@@ -1,106 +1,150 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
+/**
+ * Fichier JS pour l'exercice sur la rémunération.
+ * GUI : pages/remuneration.html
+ * 
  */
 
-/*
- * Regroupe les méhodes afin de récupérer le total.
+/**
+ * Listener sur le bouton, calcul et affichage du résultat
+ * 
+ */
+window.addEventListener("load", function () {
+    // Déclaration de l'index de parcours
+    let i;
+
+    // tabInputs est une collection de <input>
+    let tabInputs = window.document.querySelectorAll("input");
+
+    // Parcours de tabInputs en s'appuyant sur le nombre de <input>
+    for (i = 0; i < tabInputs.length; i++) {
+
+        // Ajout d'un Listener sur tous les <input> sur l'évènement onKeyUp
+        tabInputs[i].addEventListener("keyup", calcRemu);
+    }
+});
+
+/**
+ * Fonction principale qui s'occupe de récupérer les valeurs, calculer le montant
+ * de la rémunération et qui s'occupe ensuite de l'afficher
+ * 
  * @returns {undefined}
  */
+function calcRemu() {
+    // Déclaration des constantes
+    const fixe = 1100.0;
 
-function Simulateur(){
-    let total = new Number();
-    total = get_salaire_ancien() + get_salaire_s20() + get_salaire_xspirit() + get_salaire_multitec() + get_km_rembourser();
-    window.document.querySelector("#resultat_remun").innerHTML = total + " €";
+    // Déclaration et affectation des variables
+    let nbAncien = recupValeur("#num_ancien");
+    let nbS20 = recupValeur("#num_s20");
+    let nbXS = recupValeur("#num_xs");
+    let nbMulti = recupValeur("#num_multi");
+    let km = recupValeur("#num_km");
+    let remuneration = fixe + recupPrimeAnciennete(nbAncien, fixe) + recupComS20(nbS20) + recupComXS(nbXS) + recupComMulti(nbMulti) + recupIndemKm(km);
+
+    // Affichage du résultat
+    afficheRemu(remuneration);
 }
 
-/*
- * Permet d'obtenir le salaire selon l'ancienneté.
- * @returns {Number}
+/**
+ * Fonction qui retourne un entier depuis une valeur prise dans le DOM
+ * 
+ * @param {String} id
+ * @return {integer}
  */
-function get_salaire_ancien(){
-    let total = new Number();
-    let nbAncien = parseInt(window.document.querySelector("#i_anciennete").value);
-    const fixe = 1100;
-    const TauxAncien1 = 1.03;
-    const TauxAncien2 = 1.06
-    if (nbAncien >= 10)
-    {
-        total += fixe * TauxAncien2;
+export function recupValeur(id) {
+    var valeur = parseInt(window.document.querySelector(id).value);
+    if (isNaN(valeur)) {
+        window.document.querySelector(id).value = 0;
+        return 0;
+    } else {
+        return valeur;
     }
-    else if (nbAncien >= 5){
-        total += fixe * TauxAncien1;
+}
+
+/**
+ * Fonction qui affiche la rémunération dans l'élément d'id "remuneration"
+ * 
+ * @param {type} nombre
+ * @return {undefined}
+ */
+function afficheRemu(nombre) {
+    window.document.querySelector("#remuneration").innerHTML =
+            "La rémunération sera de : " + nombre + " €";
+}
+
+/**
+ * Fonction qui retourne la prime d'ancienneté
+ * @param {integer} nb
+ * @param {float} fixe
+ * @returns {float}
+ */
+function recupPrimeAnciennete(nb, fixe) {
+    const nbAncienMin = 5, txAncienMin = 0.03, nbAncienSup = 10, txAncienSup = 0.06;
+    if (nb >= nbAncienSup) {
+        return (fixe * txAncienSup);
+    } else if (nb >= nbAncienMin) {
+        return (fixe * txAncienMin);
+    } else {
+        return 0.0;
+    }
+}
+
+/**
+ * Fonction qui retourne la commission sur le S20
+ * @param {integer} nb
+ * @returns {float}
+ */
+function recupComS20(nb) {
+    const prixS20 = 140.0, txComS20 = 0.02;
+    return (nb * prixS20 * txComS20);
+}
+
+/**
+ * Fonction qui retourne la commission sur le X-Spirit
+ * @@param {integer} nb
+ * @returns {float}
+ */
+function recupComXS(nb) {
+    const prixXS = 350.0, nbXSMinCom = 50, txComXS = 0.06;
+    if (nb >= nbXSMinCom) {
+        return ((nb - nbXSMinCom) * prixXS * txComXS);
+    } else {
+        return 0.0;
+    }
+}
+
+/**
+ * Fonction qui retourne la commission sur le Multitec
+ * @param {integer} nb
+ * @returns {float}
+ */
+function recupComMulti(nb) {
+    const prixMu = 180.0, nbMultiTranche1 = 20, nbMultiTranche2 = 50;
+    const txMultiTranche1 = 0.04, txMultiTranche2 = 0.06, txMultiTranche3 = 0.1;
+    if (nb <= nbMultiTranche1) {
+        return (nb * prixMu * txMultiTranche1);
+    } else if (nb <= nbMultiTranche2) {
+        return ((nbMultiTranche1 * prixMu * txMultiTranche1)
+                + ((nb - nbMultiTranche1) * prixMu * txMultiTranche2));
+    } else {
+        return ((nbMultiTranche1 * prixMu * txMultiTranche1)
+                + ((nbMultiTranche2 - nbMultiTranche1) * prixMu * txMultiTranche2)
+                + ((nb - nbMultiTranche2) * prixMu * txMultiTranche3));
+    }
+}
+
+/**
+ * Fonction qui retourne l'indemnité kilométrique
+ * @param {type} nb
+ * @returns {float}
+ */
+function recupIndemKm(nb) {
+    const prix = 0.15, plafond = 350;
+    let indem = nb * prix;
+    if (indem > plafond) {
+        return plafond;
     }
     else {
-        total += fixe;
-    }
-    return total;
-}
-
-/*
- * Permet d'obtenir le salaire des ventes du S20.
- */
-function get_salaire_s20(){
-    let total = new Number();
-    let nbS20 = parseInt(window.document.querySelector("#i_nbs20").value);
-    const TauxXspirit = 0.02;
-    const S20 = 140;
-    return total = total + S20*nbS20*TauxXspirit;
-}
-
-/*
- *  Permet d'obtenir les salaires selon le nombre de XSpirit.
- */
-function get_salaire_xspirit(){
-    let total = new Number();
-    const xspirit = 350;
-    let nbXSpirit = parseInt(window.document.querySelector("#i_nbxspirit").value);
-    if (nbXSpirit > 50)
-    {
-        return total += xspirit*0.06;
-    }
-    else{
-        return total;
+        return indem;
     }
 }
-
-/*
- * Permet d'obtenir les salaires selon le nombre de multitec vendu.
- */
-function get_salaire_multitec(){
-    let total = new Number();
-    let nbMultitec = parseInt(window.document.querySelector("#i_nbmultitec").value);
-    const Multitec = 180;
-    const TauxMulti1 = 0.04;
-    const TauxMulti2 = 0.06;
-    const TauxMulti3 = 0.10;
-    if(nbMultitec >= 51){
-        return total = total + Multitec*nbMultitec*TauxMulti3;
-    }
-    else if(nbMultitec >= 21){
-        return total = total + Multitec*nbMultitec*TauxMulti2;
-    }
-    else if (nbMultitec <= 20){
-        return total = total + Multitec*nbMultitec*TauxMulti1;
-    }
-}
-
-/*
- * Permet d'obtenir l'indemnité des km parcouru.
- */
-function get_km_rembourser(){
-    let total = new Number();
-    const indemnite = 0.15;
-    let nbKmParcouru = parseInt(window.document.querySelector("#i_nbkmparcouru").value);
-    total += nbKmParcouru*indemnite;
-    if (total > 350){
-        return total = 350;
-    }
-    else{
-        return total;
-    }
-}
-
-window.addEventListener("load", function () {
-    window.document.querySelector("#btn_envoyer_simu").addEventListener("click", Simulateur);
-});
