@@ -93,3 +93,12 @@ function getInt(id) {
         return valeur;
     }
 }
+
+/**
+ * Fonction qui retourne un string dans le champs via son id.
+ * @param {string} id
+ * @returns {string}
+ */
+function getString(id){
+    return window.document.querySelector(id).value;
+}
