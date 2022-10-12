@@ -16,15 +16,50 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
         <link rel="icon" href="../favicon.ico">
     </head>
     <body>
+        <header>
+            <picture>
+                <source media="(max-width: 576px)" srcset="../images/banniere_small.png">
+                <source srcset="../images/banniere.png">
+                <img src="../images/banniere.png" alt="Nolark : Protect your minds ! Cette bannière montre un 
+                     coucher de soleil avec une femme embrassant un homme réalisant en stoppie sur sa
+                     moto.">
+                <!-- Image basée sur la création originale de ShiftGraphiX sur Pixabay : 
+                    https://pixabay.com/fr/couple-stoppie-sportive-vélomoteur-3156613/ -->
+            </picture>
+            <nav>
+                <input type="checkbox">
+                <span></span>
+                <span></span>
+                <span></span>
+                <ul>
+                    <li><a href="../index.html">Accueil</a></li>
+                    <li><a href="route.html">Route</a></li>
+                    <li><a href="cross.html">Cross</a></li>
+                    <li><a href="piste.html">Piste</a></li>
+                    <li><a href="enfants.html">Enfants</a></li>
+                    <li><a href="nous-contacter.html">Nous contacter</a></li>
+                </ul>
+            </nav>
+        </header>
         <section id="formulaire">
             <h1>Simulateur d'Alcoolémie :</h1>
             <form id="form_alcoolemie" name="form_alcoolemie">
                 <fieldset id="resultats">
                     <legend>Vos résultats : </legend>
+                    <center>
+                        <fieldset id="sexe">
+                            <p><label for="rd_sexehomme">Homme </label><input type="radio" name="rd_sexe" id="rd_sexehomme" value="homme" checked="checked"></p>
+                            <p><label for="rd_sexefemme">Femme </label><input type="radio" name="rd_sexe" id="rd_sexefemme" value="femme"></p>
+                        </fieldset>
+                    </center>
                     <p><label for="num_verre">Nombre de verre pris :</label> <input type="number" name="num_verre" id="num_verre" min="0" max="100" value="0"></p>
                     <p><label for="num_poids">Votre poids :</label> <input type="number" name="num_poids" id="num_poids" min="0" max="800" value="0"></p>
                 </fieldset>
                 <p id="controles"><input type="reset" name="rst_annuler" id="btn_annuler" value="Effacer les données"></p>
+                <p id="controles"><input type="button" id="btn_envoyer_simu" name="sub_envoyersimu" value="Envoyer votre demande de simulation"></p>
+                <div><span id="resultat_alcoolemie" style='color:red'></span></div>
+                <div><span id="resultat_amende" style='color:black'></span></div>
+                <div><span id="resultat_sanction" style='color:black'></span></div>
             </form>
         </section>
         <footer>

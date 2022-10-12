@@ -3,6 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
+
+function calculAlcoolemie(){
+    let valeurPoids = getInt("#num_poids");
+    let valeurVerre = getInt("#num_verre");
+    let individuGenre = getString('#sexe input[type="radio"]:checked');
+    let valeurAlcoolemie = getAlcoolemie(individuGenre, valeurPoids, valeurVerre);
+    let typeSanction = getSanction(valeurAlcoolemie);
+    let typeAmende = getAmende(valeurAlcoolemie);
+    window.document.querySelector("#resultat_alcoolemie").innerHTML = "Votre taux d'alcoolémie est de : " + getAlcoolemie(individuGenre, valeurPoids, valeurVerre) + " g/l de sang";
+    window.document.querySelector("#resultat_amende").innerHTML = typeAmende;
+    window.document.querySelector("#resultat_sanction").innerHTML = typeSanction;
+}
+
 /**
  * Fonction qui retourne l'alcool pur ingéré en fonction du nombre de verre.
  * 
@@ -102,3 +115,23 @@ function getInt(id) {
 function getString(id){
     return window.document.querySelector(id).value;
 }
+
+/**
+ * Fonction qui retourne un entier depuis une valeur prise dans le DOM
+ * 
+ * @param {String} id
+ * @return {integer}
+ */
+ function recupValeur(id) {
+    var valeur = parseInt(window.document.querySelector(id).value);
+    if (isNaN(valeur)) {
+        window.document.querySelector(id).value = 0;
+        return 0;
+    } else {
+        return valeur;
+    }
+}
+
+window.addEventListener("load", function () {
+    window.document.querySelector("#btn_envoyer_simu").addEventListener("click", calculAlcoolemie);
+});
